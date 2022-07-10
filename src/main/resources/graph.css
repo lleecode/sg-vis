@@ -1,0 +1,12 @@
+
+edge {
+    fill-color: green;
+}
+
+edge.one {
+   fill-color: red;
+}
+
+edge.two {
+    fill-color: blue;
+}
