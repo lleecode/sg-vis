@@ -7,9 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GraphVisualizer {
 
+    private static final int SLEEP_DURATION = 50;
+
     public static void main(String[] args) throws InterruptedException {
         System.setProperty("org.graphstream.ui", "swing");
-        displayRandomGraph(10);
+        displayRandomGraph(50);
     }
 
     private static void displayRandomGraph(int size) throws InterruptedException {
@@ -21,23 +23,23 @@ public class GraphVisualizer {
         graph.display();
 
         for (int i = 0; i < size; i++) {
-            Thread.sleep(200);
+            Thread.sleep(SLEEP_DURATION);
             graph.addNode("" + i);
         }
         for (int i = 0; i < size; i++) {
-            Thread.sleep(200);
+            Thread.sleep(SLEEP_DURATION);
             Edge e = graph.addEdge(
                     i + "",
                     ThreadLocalRandom.current().nextInt(0, size) + "",
                     ThreadLocalRandom.current().nextInt(0, size) + ""
             );
             if (e != null) {
-                if (i % 2 == 0) e.setAttribute("ui.class", "one");
-                else e.setAttribute("ui.class", "two");
+                if (i % 3 == 2) e.setAttribute("ui.class", "one");
+                else if (i % 3 == 1) e.setAttribute("ui.class", "two");
             }
         }
         for (int i = 0; i < graph.getEdgeCount(); i++) {
-            Thread.sleep(200);
+            Thread.sleep(SLEEP_DURATION);
             graph.getEdge(i).setAttribute("ui.fill-color", "red");
         }
     }
