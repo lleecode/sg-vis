@@ -1,12 +1,14 @@
-
+/* Style for all edge objects.  */
 edge {
     fill-color: green;
 }
 
+/* Style for all edge objects with class "one".  */
 edge.one {
-   fill-color: red;
+    fill-color: red;
 }
 
+/* Style for all edge objects with class "two".  */
 edge.two {
     fill-color: blue;
 }
