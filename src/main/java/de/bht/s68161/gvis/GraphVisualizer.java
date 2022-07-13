@@ -4,12 +4,6 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import org.graphstream.stream.file.FileSinkImages;
-import org.graphstream.stream.file.images.Resolutions;
-import org.graphstream.ui.spriteManager.Sprite;
-import org.graphstream.ui.spriteManager.SpriteManager;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -53,7 +47,6 @@ public class GraphVisualizer {
     }
 
     private static void displayGraphWithMST() throws InterruptedException {
-        FileSinkImages pic = FileSinkImages.createDefault();
         SingleGraph graph = new SingleGraph("1", false, false);
         graph.setAttribute("ui.stylesheet", "url('file:./src/main/resources/graphWithMST.css')");
         graph.display();
