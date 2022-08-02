@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class GraphVisualizer {
 
-    private static final int SLEEP_DURATION = 50;
+    private static final int SLEEP_DURATION = 2000;
 
     public static void main(String[] args) throws InterruptedException {
         initVisualizedGraph();
@@ -42,5 +42,13 @@ public class GraphVisualizer {
         vMST.addEdgeToMST(hi);
         vMST.addEdgeToMST(gf);
         vMST.addEdgeToMST(ec);
+
+        Thread.sleep(SLEEP_DURATION);
+
+        vMST.getEdges().forEach(e -> System.out.println(""
+                + "Edge: " + e.getName()
+                + " between " + e.getNodeA().getName()
+                + " and " + e.getNodeB().getName())
+        );
     }
 }

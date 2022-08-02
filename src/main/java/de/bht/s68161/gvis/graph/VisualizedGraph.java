@@ -2,6 +2,7 @@ package de.bht.s68161.gvis.graph;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.ElementNotFoundException;
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 public class VisualizedGraph {
@@ -15,14 +16,16 @@ public class VisualizedGraph {
     }
 
     public Node addNode(String name) {
-        return Node.from(graph.addNode(name));
+        org.graphstream.graph.Node node = graph.addNode(name);
+        node.setAttribute(Attributes.LABEL.getValue(), node.getId());
+        return Node.from(node);
     }
 
-    public Node removeNode(String name) throws ElementNotFoundException {
+    protected Node removeNode(String name) throws ElementNotFoundException {
         return Node.from(graph.removeNode(name));
     }
 
-    public Node removeNode(Node node) throws ElementNotFoundException {
+    protected Node removeNode(Node node) throws ElementNotFoundException {
         graph.removeNode(node.getName());
         return node;
     }
@@ -33,12 +36,12 @@ public class VisualizedGraph {
         return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
     }
 
-    public WeightedEdge removeEdge(WeightedEdge edge) throws ElementNotFoundException {
+    protected WeightedEdge removeEdge(WeightedEdge edge) throws ElementNotFoundException {
         graph.removeEdge(edge.getName());
         return edge;
     }
 
-    public WeightedEdge removeEdge(String name) {
+    protected WeightedEdge removeEdge(String name) {
         return WeightedEdge.from(graph.removeEdge(name));
     }
 
