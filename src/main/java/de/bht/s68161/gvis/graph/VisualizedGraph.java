@@ -9,8 +9,8 @@ public class VisualizedGraph {
     private final SingleGraph graph;
 
     public VisualizedGraph() {
-        graph = new SingleGraph("", false, false);
-        graph.setAttribute("ui.stylesheet", STYLESHEET);
+        System.setProperty("org.graphstream.ui", "swing");
+        graph = new SingleGraph("0", true, false);
         graph.display();
     }
 
@@ -29,7 +29,7 @@ public class VisualizedGraph {
 
     public WeightedEdge addEdge(String name, String nodeA, String nodeB, int weight) {
         Edge e = graph.addEdge(name, nodeA, nodeB);
-        e.setAttribute("ui.label", weight);
+        e.setAttribute(Attributes.LABEL.getValue(), weight);
         return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
     }
 
@@ -46,32 +46,17 @@ public class VisualizedGraph {
         return WeightedEdge.from(graph.getEdge(edge.getName())).equals(edge);
     }
 
+    protected void setAttribute(WeightedEdge edge, String attr, String value) {
+        Edge e = graph.getEdge(edge.getName());
+        e.setAttribute(attr, value);
+    }
 
+    protected void setAttribute(Node node, String attr, String value) {
+        org.graphstream.graph.Node n = graph.getNode(node.getName());
+        n.setAttribute(attr, value);
+    }
 
-    private static final String STYLESHEET = "" +
-            "edge {\n" +
-            "    fill-color: black;\n" +
-            "    size: 2;\n" +
-            "    text-size: 25;\n" +
-            "    text-alignment: above;\n" +
-            "    text-color: black;\n" +
-            "    text-style: bold;\n" +
-            "    text-background-mode: rounded-box;\n" +
-            "    text-background-color: white;\n" +
-            "    text-padding: 4, 4;\n" +
-            "}\n" +
-            "\n" +
-            "edge.mst {\n" +
-            "    fill-color: red;\n" +
-            "}\n" +
-            "\n" +
-            "node {\n" +
-            "    text-size: 25;\n" +
-            "    text-style: bold;\n" +
-            "    size: 25, 25;\n" +
-            "    stroke-mode: plain;\n" +
-            "    stroke-width: 2;\n" +
-            "    fill-color: white;\n" +
-            "}\n";
-
+    protected void setAttribute(String attr, String value) {
+        graph.setAttribute(attr, value);
+    }
 }

@@ -57,8 +57,8 @@ public class WeightedEdge {
         WeightedEdge that = (WeightedEdge) o;
         return (weight == that.weight)
                 && (Objects.equals(name, that.name))
-                && (Objects.equals(nodeA, that.nodeA) && Objects.equals(nodeB, that.nodeB) ||
-                Objects.equals(nodeA, that.nodeB) && Objects.equals(nodeB, that.nodeA));
+                && (nodeA.getName().equals(that.nodeA.getName()) && nodeB.getName().equals(that.nodeB.getName()) ||
+                nodeA.getName().equals(that.nodeB.getName()) && nodeB.getName().equals(that.nodeA.getName()));
     }
 
     @Override
