@@ -5,14 +5,25 @@ import java.util.HashSet;
 public class VisualizedMST {
     private final VisualizedGraph graph;
     private final HashSet<WeightedEdge> edges;
+    private final long visualizationDelay;
 
     public VisualizedMST(VisualizedGraph graph) {
+        this(graph, 0);
+    }
+
+    public VisualizedMST(VisualizedGraph graph, long visualizationDelay) {
         this.graph = graph;
+        this.visualizationDelay = visualizationDelay;
         this.edges = new HashSet<>();
         this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
     }
 
     public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
+        try {
+            Thread.sleep(visualizationDelay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!graph.containsEdge(edge)) throw new InvalidEdgeException("Edge has to be contained in graph.");
         if (edges.contains(edge)) throw new InvalidEdgeException("Edge is already part of MST");
 

@@ -2,8 +2,10 @@ package de.bht.s68161.gvis.graph;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.ElementNotFoundException;
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class VisualizedGraph {
 
@@ -30,6 +32,10 @@ public class VisualizedGraph {
         return node;
     }
 
+    public HashSet<Node> getNodes() {
+        return graph.nodes().map(Node::from).collect(Collectors.toCollection(HashSet::new));
+    }
+
     public WeightedEdge addEdge(String name, String nodeA, String nodeB, int weight) {
         Edge e = graph.addEdge(name, nodeA, nodeB);
         e.setAttribute(Attributes.LABEL.getValue(), weight);
@@ -43,6 +49,10 @@ public class VisualizedGraph {
 
     protected WeightedEdge removeEdge(String name) {
         return WeightedEdge.from(graph.removeEdge(name));
+    }
+
+    public HashSet<WeightedEdge> getEdges() {
+        return graph.edges().map(WeightedEdge::from).collect(Collectors.toCollection(HashSet::new));
     }
 
     protected boolean containsEdge(WeightedEdge edge) {

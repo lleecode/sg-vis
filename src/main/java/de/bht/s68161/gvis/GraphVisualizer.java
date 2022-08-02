@@ -1,5 +1,6 @@
 package de.bht.s68161.gvis;
 
+import de.bht.s68161.gvis.graph.Node;
 import de.bht.s68161.gvis.graph.VisualizedGraph;
 import de.bht.s68161.gvis.graph.VisualizedMST;
 import de.bht.s68161.gvis.graph.WeightedEdge;
@@ -7,6 +8,7 @@ import de.bht.s68161.gvis.graph.WeightedEdge;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GraphVisualizer {
@@ -51,7 +53,7 @@ public class GraphVisualizer {
     private static void initExampleKruskal() throws InterruptedException {
 
         VisualizedGraph vGraph = new VisualizedGraph();
-        VisualizedMST vMST = new VisualizedMST(vGraph);
+        VisualizedMST vMST = new VisualizedMST(vGraph, 1000);
 
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(vGraph::addNode);
 
@@ -66,71 +68,46 @@ public class GraphVisualizer {
         vGraph.addEdge("ga", "F", "A", 7);
         vGraph.addEdge("gf", "G", "F", 1);
         vGraph.addEdge("hi", "H", "I", 3);
+
+        kruskal(vGraph, vMST);
     }
 
     private static HashSet<WeightedEdge> kruskal(VisualizedGraph graph, VisualizedMST mst) {
+        HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
+        graph.getNodes().forEach(node -> {
+            HashSet<Node> cluster = new HashSet<>();
+            cluster.add(node);
+            nodeClusters.add(cluster);
+        });
+
+        List<WeightedEdge> edges = graph
+                .getEdges()
+                .stream()
+                .sorted(Comparator.comparingInt(WeightedEdge::getWeight))
+                .collect(Collectors.toList());
+
+        for (WeightedEdge edge : edges) {
+            Node nodeA = edge.getNodeA();
+            Node nodeB = edge.getNodeB();
+
+            HashSet<Node> clusterA = findContainingCluster(nodeClusters, nodeA);
+            HashSet<Node> clusterB = findContainingCluster(nodeClusters, nodeB);
+
+            if(clusterA != clusterB) {
+                HashSet<Node> merged = new HashSet<>();
+                merged.addAll(clusterA);
+                merged.addAll(clusterB);
+                nodeClusters.remove(clusterA);
+                nodeClusters.remove(clusterB);
+                nodeClusters.add(merged);
+                mst.addEdgeToMST(edge);
+            }
+        }
 
         return mst.getEdges();
     }
 
-/**
- *
- * TODO: re-implement kruskal
- *
-    private static void kruskal() {
-
-        // collection for resulting minimum spanning tree
-        Graph<Vertex, Edge<Vertex>> mst = new Graph<>(false);
-        // init empty collection for mst edges
-        HashSet<Edge<Vertex>> mstEdges = new HashSet<>();
-        // init empty set of sets which each contain a connected cluster of vertices
-        HashSet<HashSet<Vertex>> clusteredVertices = new HashSet<>();
-        // add all vertices to mst
-        graph.getVertices().forEach(mst::addVertex);
-
-        // init cluster collection
-        graph.getVertices().forEach(v -> {
-            HashSet<Vertex> cluster = new HashSet<>();
-            cluster.add(v);
-            clusteredVertices.add(cluster);
-        });
-
-        // sort edges by weight
-        List<Edge<Vertex>> sortedEdges = graph
-                .getEdges()
-                .stream()
-                .sorted(Comparator.comparingInt(Edge::getWeight))
-                .collect(Collectors.toList());
-
-        // iterate over all edges in ascending order of weight
-        for (Edge<Vertex> edge : sortedEdges) {
-            // get vertices
-            Vertex vertexA = edge.getVertexA();
-            Vertex vertexB = edge.getVertexB();
-
-            // find containing cluster for both vertices
-            HashSet<Vertex> bContainer = findContainingCluster(clusteredVertices, vertexB);
-            HashSet<Vertex> aContainer = findContainingCluster(clusteredVertices, vertexA);
-
-            if (aContainer != bContainer) {
-                // create union
-                HashSet<Vertex> merged = new HashSet<>();
-                merged.addAll(aContainer);
-                merged.addAll(bContainer);
-                // replace clusters with union
-                clusteredVertices.remove(aContainer);
-                clusteredVertices.remove(bContainer);
-                clusteredVertices.add(merged);
-                // add edge to mst
-                mstEdges.add(edge);
-            }
-        }
-        mstEdges.forEach(mst::addEdge); // collect edges in mst graph
-        return mst;
+    private static HashSet<Node> findContainingCluster(HashSet<HashSet<Node>> nodeClusters, Node node) {
+        return nodeClusters.stream().filter(cluster -> cluster.contains(node)).findAny().get();
     }
-
-    private static HashSet<Vertex> findContainingCluster(HashSet<HashSet<Vertex>> container, Vertex vertex) {
-        return container.stream().filter(cluster -> cluster.contains(vertex)).findAny().get();
-    }
-    **/
 }
