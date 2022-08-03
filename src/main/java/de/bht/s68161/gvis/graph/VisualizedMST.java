@@ -5,9 +5,12 @@ import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -24,27 +27,6 @@ public class VisualizedMST {
         state.add(new HashSet<>());
         this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
         setupVisualization();
-    }
-
-    private void setupVisualization() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new GridLayout()) {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(640, 480);
-            }
-        };
-        panel.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
-        Viewer viewer = new SwingViewer(graph.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        ViewPanel view = (ViewPanel) viewer.addDefaultView(false);
-        panel.add(view);
-        frame.add(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        showState(visualizedState);
     }
 
     public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
@@ -91,4 +73,34 @@ public class VisualizedMST {
             "    stroke-width: 2;\n" +
             "    fill-color: white;\n" +
             "}\n";
+
+    private void setupVisualization() {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel(new BorderLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(640, 480);
+            }
+        };
+        panel.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+        Viewer viewer = new SwingViewer(graph.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        ViewPanel view = (ViewPanel) viewer.addDefaultView(false);
+        panel.add(view, BorderLayout.NORTH);
+        JButton b0 = new JButton("start");
+        JButton b1 = new JButton("back");
+        JButton b2 = new JButton("forward");
+        JButton b3 = new JButton("end");
+
+        panel.add(b0);
+        panel.add(b1);
+        panel.add(b2);
+        panel.add(b3);
+        frame.add(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        showState(visualizedState);
+    }
 }
