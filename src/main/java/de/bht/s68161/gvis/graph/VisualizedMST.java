@@ -1,38 +1,69 @@
 package de.bht.s68161.gvis.graph;
 
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class VisualizedMST {
     private final VisualizedGraph graph;
-    private final HashSet<WeightedEdge> edges;
-    private final long visualizationDelay;
+    private final ArrayList<HashSet<WeightedEdge>> state;
+    private int visualizedState = 0;
 
     public VisualizedMST(VisualizedGraph graph) {
-        this(graph, 0);
+        this.graph = graph;
+        this.state = new ArrayList<>();
+        state.add(new HashSet<>());
+        this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
+        setupVisualization();
     }
 
-    public VisualizedMST(VisualizedGraph graph, long visualizationDelay) {
-        this.graph = graph;
-        this.visualizationDelay = visualizationDelay;
-        this.edges = new HashSet<>();
-        this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
+    private void setupVisualization() {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel(new GridLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(640, 480);
+            }
+        };
+        panel.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+        Viewer viewer = new SwingViewer(graph.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        ViewPanel view = (ViewPanel) viewer.addDefaultView(false);
+        panel.add(view);
+        frame.add(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        showState(visualizedState);
     }
 
     public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
-        try {
-            Thread.sleep(visualizationDelay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (!graph.containsEdge(edge)) throw new InvalidEdgeException("Edge has to be contained in graph.");
-        if (edges.contains(edge)) throw new InvalidEdgeException("Edge is already part of MST");
+        HashSet<WeightedEdge> oldState = state.get(state.size() - 1);
+        if (oldState.contains(edge)) throw new InvalidEdgeException("Edge is already part of MST");
 
-        edges.add(edge);
-        graph.setAttribute(edge, Attributes.CLASS.getValue(), "mst");
+        HashSet<WeightedEdge> newState = new HashSet<>(oldState);
+        newState.add(edge);
+        state.add(newState);
     }
 
-    public HashSet<WeightedEdge> getEdges() {
-        return new HashSet<>(edges);
+    public void showState(int index) {
+        graph.getEdges().forEach(e -> {
+            graph.removeAttribute(e, Attributes.CLASS.getValue());
+        });
+        state.get(index).forEach(e -> {
+            graph.setAttribute(e, Attributes.CLASS.getValue(), "mst");
+        });
     }
 
     private static final String STYLESHEET = "" +

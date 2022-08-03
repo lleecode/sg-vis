@@ -15,14 +15,14 @@ public class GraphVisualizer {
 
     private static final int SLEEP_DURATION = 1000;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         initExampleKruskal();
     }
 
-    private static void initExampleKruskal() {
+    private static void initExampleKruskal() throws InterruptedException {
 
         VisualizedGraph vGraph = new VisualizedGraph();
-        VisualizedMST vMST = new VisualizedMST(vGraph, SLEEP_DURATION);
+        VisualizedMST vMST = new VisualizedMST(vGraph);
 
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(vGraph::addNode);
 
@@ -41,7 +41,7 @@ public class GraphVisualizer {
         kruskal(vGraph, vMST);
     }
 
-    private static void kruskal(VisualizedGraph graph, VisualizedMST mst) {
+    private static void kruskal(VisualizedGraph graph, VisualizedMST mst) throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
             HashSet<Node> cluster = new HashSet<>();

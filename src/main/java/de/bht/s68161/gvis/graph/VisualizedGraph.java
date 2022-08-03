@@ -2,6 +2,7 @@ package de.bht.s68161.gvis.graph;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.ElementNotFoundException;
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import java.util.HashSet;
@@ -12,9 +13,7 @@ public class VisualizedGraph {
     private final SingleGraph graph;
 
     public VisualizedGraph() {
-        System.setProperty("org.graphstream.ui", "swing");
         graph = new SingleGraph("0", true, false);
-        graph.display();
     }
 
     public Node addNode(String name) {
@@ -64,6 +63,11 @@ public class VisualizedGraph {
         e.setAttribute(attr, value);
     }
 
+    protected void removeAttribute(WeightedEdge edge, String attr) {
+        Edge e = graph.getEdge(edge.getName());
+        e.removeAttribute(attr);
+    }
+
     protected void setAttribute(Node node, String attr, String value) {
         org.graphstream.graph.Node n = graph.getNode(node.getName());
         n.setAttribute(attr, value);
@@ -71,5 +75,9 @@ public class VisualizedGraph {
 
     protected void setAttribute(String attr, String value) {
         graph.setAttribute(attr, value);
+    }
+
+    protected Graph getGraph() {
+        return graph;
     }
 }
