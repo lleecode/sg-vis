@@ -4,15 +4,14 @@ import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -21,12 +20,18 @@ public class VisualizedMST {
     private final ArrayList<HashSet<WeightedEdge>> state;
     private int visualizedState = 0;
 
+    private JFrame frame;
+    JButton startButton;
+    JButton backButton;
+    JButton forwardButton;
+    JButton endButton;
+
     public VisualizedMST(VisualizedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
         this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
-        setupVisualization();
+        initializeFrame();
     }
 
     public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
@@ -39,12 +44,23 @@ public class VisualizedMST {
         state.add(newState);
     }
 
-    public void showState(int index) {
+    public void updateVisualization() {
+
+        System.out.println("Printing edges of visualized state " + visualizedState);
+
         graph.getEdges().forEach(e -> {
-            graph.removeAttribute(e, Attributes.CLASS.getValue());
-        });
-        state.get(index).forEach(e -> {
-            graph.setAttribute(e, Attributes.CLASS.getValue(), "mst");
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            if (state.get(visualizedState).contains(e)) {
+                System.out.println("Contained Edge: " + e.getName());
+                graph.setAttribute(e, Attributes.CLASS.getValue(), "mst");
+            } else {
+                System.out.println("Edge not contained: " + e.getName());
+                graph.removeAttribute(e, Attributes.CLASS.getValue());
+            }
         });
     }
 
@@ -74,33 +90,112 @@ public class VisualizedMST {
             "    fill-color: white;\n" +
             "}\n";
 
-    private void setupVisualization() {
-        JFrame frame = new JFrame();
+    private void initializeFrame() {
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.add(createGraphPanel());
+        frame.add(createButtonPanel(), BorderLayout.SOUTH);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    private JPanel createGraphPanel() {
         JPanel panel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(640, 480);
             }
         };
-        panel.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+
         Viewer viewer = new SwingViewer(graph.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         ViewPanel view = (ViewPanel) viewer.addDefaultView(false);
-        panel.add(view, BorderLayout.NORTH);
-        JButton b0 = new JButton("start");
-        JButton b1 = new JButton("back");
-        JButton b2 = new JButton("forward");
-        JButton b3 = new JButton("end");
-
-        panel.add(b0);
-        panel.add(b1);
-        panel.add(b2);
-        panel.add(b3);
-        frame.add(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        showState(visualizedState);
+        panel.add(view);
+        return panel;
     }
+
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4)) {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(640, 40);
+            }
+        };
+
+        startButton = new JButton("start");
+        backButton = new JButton("back");
+        forwardButton = new JButton("forward");
+        endButton = new JButton("end");
+
+        startButton.addActionListener(startButtonListener);
+        backButton.addActionListener(backButtonListener);
+        forwardButton.addActionListener(forwardButtonListener);
+        endButton.addActionListener(endButtonListener);
+
+        buttonPanel.add(startButton);
+        buttonPanel.add(backButton);
+        buttonPanel.add(forwardButton);
+        buttonPanel.add(endButton);
+
+        return buttonPanel;
+    }
+
+    private final ActionListener startButtonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (visualizedState > 0) {
+                visualizedState = 0;
+                updateVisualization();
+            }
+        }
+    };
+
+    private final ActionListener backButtonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (visualizedState > 0) {
+                visualizedState--;
+                updateVisualization();
+            }
+        }
+    };
+
+    private final ActionListener forwardButtonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (visualizedState < state.size() - 1) {
+                visualizedState++;
+                updateVisualization();
+            }
+        }
+    };
+
+    private final ActionListener endButtonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (visualizedState < state.size() - 1) {
+                visualizedState = state.size() - 1;
+                updateVisualization();
+            }
+        }
+    };
+
+    private void updateButtons() {
+        startButton.setEnabled(true);
+        backButton.setEnabled(true);
+        forwardButton.setEnabled(true);
+        endButton.setEnabled(true);
+
+        if (visualizedState == 0) {
+            startButton.setEnabled(false);
+            backButton.setEnabled(false);
+        }
+        if (visualizedState == state.size() - 1) {
+            endButton.setEnabled(false);
+            forwardButton.setEnabled(false);
+        }
+    }
+
 }
