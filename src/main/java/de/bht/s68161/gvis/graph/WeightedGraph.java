@@ -8,17 +8,17 @@ import org.graphstream.graph.implementations.SingleGraph;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class VisualizedGraph {
+public class WeightedGraph {
 
     private final SingleGraph graph;
 
-    public VisualizedGraph() {
+    public WeightedGraph() {
         graph = new SingleGraph("0", true, false);
     }
 
     public Node addNode(String name) {
         org.graphstream.graph.Node node = graph.addNode(name);
-        node.setAttribute(Attributes.LABEL.getValue(), node.getId());
+        node.setAttribute(Attributes.LABEL, node.getId());
         return Node.from(node);
     }
 
@@ -37,7 +37,7 @@ public class VisualizedGraph {
 
     public WeightedEdge addEdge(String name, String nodeA, String nodeB, int weight) {
         Edge e = graph.addEdge(name, nodeA, nodeB);
-        e.setAttribute(Attributes.LABEL.getValue(), weight);
+        e.setAttribute(Attributes.LABEL, weight);
         return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
     }
 

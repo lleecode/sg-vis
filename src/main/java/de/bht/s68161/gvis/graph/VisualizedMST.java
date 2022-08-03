@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class VisualizedMST {
-    private final VisualizedGraph graph;
+    private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
     private int visualizedState = 0;
 
@@ -26,11 +26,11 @@ public class VisualizedMST {
     JButton forwardButton;
     JButton endButton;
 
-    public VisualizedMST(VisualizedGraph graph) {
+    public VisualizedMST(WeightedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
-        this.graph.setAttribute(Attributes.STYLESHEET.getValue(), STYLESHEET);
+        this.graph.setAttribute(Attributes.STYLESHEET, STYLESHEET);
         initializeFrame();
     }
 
@@ -45,22 +45,9 @@ public class VisualizedMST {
     }
 
     public void updateVisualization() {
-
-        System.out.println("Printing edges of visualized state " + visualizedState);
-
         graph.getEdges().forEach(e -> {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            if (state.get(visualizedState).contains(e)) {
-                System.out.println("Contained Edge: " + e.getName());
-                graph.setAttribute(e, Attributes.CLASS.getValue(), "mst");
-            } else {
-                System.out.println("Edge not contained: " + e.getName());
-                graph.removeAttribute(e, Attributes.CLASS.getValue());
-            }
+            if (state.get(visualizedState).contains(e)) graph.setAttribute(e, Attributes.CLASS, "mst");
+            else graph.removeAttribute(e, Attributes.CLASS);
         });
     }
 
@@ -197,5 +184,4 @@ public class VisualizedMST {
             forwardButton.setEnabled(false);
         }
     }
-
 }

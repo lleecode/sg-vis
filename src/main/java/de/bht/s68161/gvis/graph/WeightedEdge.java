@@ -11,7 +11,6 @@ public class WeightedEdge {
     private final Node nodeB;
     private final int weight;
 
-
     public WeightedEdge(String name, Node nodeA, Node nodeB, int weight) {
         this.name = name;
         this.nodeA = nodeA;
@@ -38,7 +37,7 @@ public class WeightedEdge {
     protected static WeightedEdge from(Edge edge) {
         int weight;
         try {
-            weight = Integer.parseInt(edge.getAttribute("ui.label").toString());
+            weight = Integer.parseInt(edge.getAttribute(Attributes.LABEL).toString());
         } catch (NumberFormatException nfe) {
             weight = 1;
         }

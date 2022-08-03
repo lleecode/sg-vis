@@ -1,18 +1,7 @@
 package de.bht.s68161.gvis.graph;
 
-public enum Attributes {
-    LABEL("ui.label"),
-    STYLESHEET("ui.stylesheet"),
-    CLASS("ui.class")
-    ;
-
-    private final String value;
-
-    Attributes(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+public class Attributes {
+    public static final String LABEL = "ui.label";
+    public static final String STYLESHEET = "ui.stylesheet";
+    public static final String CLASS = "ui.class";
 }

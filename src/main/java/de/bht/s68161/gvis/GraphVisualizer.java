@@ -1,7 +1,7 @@
 package de.bht.s68161.gvis;
 
 import de.bht.s68161.gvis.graph.Node;
-import de.bht.s68161.gvis.graph.VisualizedGraph;
+import de.bht.s68161.gvis.graph.WeightedGraph;
 import de.bht.s68161.gvis.graph.VisualizedMST;
 import de.bht.s68161.gvis.graph.WeightedEdge;
 
@@ -21,27 +21,27 @@ public class GraphVisualizer {
 
     private static void initExampleKruskal() throws InterruptedException {
 
-        VisualizedGraph vGraph = new VisualizedGraph();
-        VisualizedMST vMST = new VisualizedMST(vGraph);
+        WeightedGraph weightedGraph = new WeightedGraph();
+        VisualizedMST vMST = new VisualizedMST(weightedGraph);
 
-        Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(vGraph::addNode);
+        Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(weightedGraph::addNode);
 
-        vGraph.addEdge("ab", "A", "B", 3);
-        vGraph.addEdge("ae", "A", "E", 4);
-        vGraph.addEdge("bf", "B", "F", 2);
-        vGraph.addEdge("ch", "C", "H", 9);
-        vGraph.addEdge("di", "D", "I", 5);
-        vGraph.addEdge("ec", "E", "C", 8);
-        vGraph.addEdge("eh", "E", "H", 6);
-        vGraph.addEdge("fi", "F", "I", 4);
-        vGraph.addEdge("ga", "F", "A", 7);
-        vGraph.addEdge("gf", "G", "F", 1);
-        vGraph.addEdge("hi", "H", "I", 3);
+        weightedGraph.addEdge("ab", "A", "B", 3);
+        weightedGraph.addEdge("ae", "A", "E", 4);
+        weightedGraph.addEdge("bf", "B", "F", 2);
+        weightedGraph.addEdge("ch", "C", "H", 9);
+        weightedGraph.addEdge("di", "D", "I", 5);
+        weightedGraph.addEdge("ec", "E", "C", 8);
+        weightedGraph.addEdge("eh", "E", "H", 6);
+        weightedGraph.addEdge("fi", "F", "I", 4);
+        weightedGraph.addEdge("ga", "F", "A", 7);
+        weightedGraph.addEdge("gf", "G", "F", 1);
+        weightedGraph.addEdge("hi", "H", "I", 3);
 
-        kruskal(vGraph, vMST);
+        kruskal(weightedGraph, vMST);
     }
 
-    private static void kruskal(VisualizedGraph graph, VisualizedMST mst) throws InterruptedException {
+    private static void kruskal(WeightedGraph graph, VisualizedMST mst) throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
             HashSet<Node> cluster = new HashSet<>();
