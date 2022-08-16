@@ -1,6 +1,6 @@
 package de.bht.lucaslee.gvis;
 
-import de.bht.lucaslee.gvis.graph.VisualizedMST;
+import de.bht.lucaslee.gvis.graph.VisualizedSubGraph;
 import de.bht.lucaslee.gvis.graph.WeightedEdge;
 import de.bht.lucaslee.gvis.graph.Node;
 import de.bht.lucaslee.gvis.graph.WeightedGraph;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GraphVisualizer {
+public class KruskalShowcase {
 
     private static final int SLEEP_DURATION = 1000;
 
@@ -22,7 +22,7 @@ public class GraphVisualizer {
     private static void initExampleKruskal() throws InterruptedException {
 
         WeightedGraph weightedGraph = new WeightedGraph();
-        VisualizedMST vMST = new VisualizedMST(weightedGraph);
+        VisualizedSubGraph vMST = new VisualizedSubGraph(weightedGraph);
 
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(weightedGraph::addNode);
 
@@ -41,7 +41,7 @@ public class GraphVisualizer {
         kruskal(weightedGraph, vMST);
     }
 
-    private static void kruskal(WeightedGraph graph, VisualizedMST mst) throws InterruptedException {
+    private static void kruskal(WeightedGraph graph, VisualizedSubGraph mst) throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
             HashSet<Node> cluster = new HashSet<>();
@@ -69,7 +69,7 @@ public class GraphVisualizer {
                 nodeClusters.remove(clusterA);
                 nodeClusters.remove(clusterB);
                 nodeClusters.add(merged);
-                mst.addEdgeToMST(edge);
+                mst.addEdgeToSubGraph(edge);
             }
         }
     }

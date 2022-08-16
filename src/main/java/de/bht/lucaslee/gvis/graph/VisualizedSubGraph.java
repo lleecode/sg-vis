@@ -7,19 +7,21 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class VisualizedMST {
+/**
+ * This class visualizes a graph and a related sub graph.
+ *
+ * @author  Lucas Lee
+ * @version 0.9
+ * @since   2022-08-16
+ */
+
+public class VisualizedSubGraph {
 
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
     private int visualizedState = 0;
 
-    private JFrame frame;
-    JButton startButton;
-    JButton backButton;
-    JButton forwardButton;
-    JButton endButton;
-
-    public VisualizedMST(WeightedGraph graph) {
+    public VisualizedSubGraph(WeightedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
@@ -33,10 +35,10 @@ public class VisualizedMST {
         );
     }
 
-    public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
+    public void addEdgeToSubGraph(WeightedEdge edge) throws InvalidEdgeException {
         if (!graph.containsEdge(edge)) throw new InvalidEdgeException("Edge has to be contained in graph.");
         HashSet<WeightedEdge> oldState = state.get(state.size() - 1);
-        if (oldState.contains(edge)) throw new InvalidEdgeException("Edge is already part of MST");
+        if (oldState.contains(edge)) throw new InvalidEdgeException("Edge is already part of sub graph");
 
         HashSet<WeightedEdge> newState = new HashSet<>(oldState);
         newState.add(edge);
@@ -45,7 +47,7 @@ public class VisualizedMST {
 
     public void updateVisualization() {
         graph.getEdges().forEach(e -> {
-            if (state.get(visualizedState).contains(e)) graph.setAttribute(e, Attributes.CLASS, "mst");
+            if (state.get(visualizedState).contains(e)) graph.setAttribute(e, Attributes.CLASS, "subgraph");
             else graph.removeAttribute(e, Attributes.CLASS);
         });
     }
@@ -63,7 +65,7 @@ public class VisualizedMST {
             "    text-padding: 4, 4;\n" +
             "}\n" +
             "\n" +
-            "edge.mst {\n" +
+            "edge.subgraph {\n" +
             "    fill-color: blue;\n" +
             "}\n" +
             "\n" +
@@ -116,19 +118,21 @@ public class VisualizedMST {
         }
     };
 
-    private void updateButtons() {
-        startButton.setEnabled(true);
-        backButton.setEnabled(true);
-        forwardButton.setEnabled(true);
-        endButton.setEnabled(true);
-
-        if (visualizedState == 0) {
-            startButton.setEnabled(false);
-            backButton.setEnabled(false);
-        }
-        if (visualizedState == state.size() - 1) {
-            endButton.setEnabled(false);
-            forwardButton.setEnabled(false);
-        }
-    }
+    /**
+     *  private void updateButtons() {
+     *         startButton.setEnabled(true);
+     *         backButton.setEnabled(true);
+     *         forwardButton.setEnabled(true);
+     *         endButton.setEnabled(true);
+     *
+     *         if (visualizedState == 0) {
+     *             startButton.setEnabled(false);
+     *             backButton.setEnabled(false);
+     *         }
+     *         if (visualizedState == state.size() - 1) {
+     *             endButton.setEnabled(false);
+     *             forwardButton.setEnabled(false);
+     *         }
+     *     }
+     */
 }
