@@ -117,22 +117,4 @@ public class VisualizedSubGraph {
             }
         }
     };
-
-    /**
-     *  private void updateButtons() {
-     *         startButton.setEnabled(true);
-     *         backButton.setEnabled(true);
-     *         forwardButton.setEnabled(true);
-     *         endButton.setEnabled(true);
-     *
-     *         if (visualizedState == 0) {
-     *             startButton.setEnabled(false);
-     *             backButton.setEnabled(false);
-     *         }
-     *         if (visualizedState == state.size() - 1) {
-     *             endButton.setEnabled(false);
-     *             forwardButton.setEnabled(false);
-     *         }
-     *     }
-     */
 }
