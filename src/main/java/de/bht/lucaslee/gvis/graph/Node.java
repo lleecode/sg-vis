@@ -1,4 +1,4 @@
-package de.bht.s68161.gvis.graph;
+package de.bht.lucaslee.gvis.graph;
 
 import java.util.Objects;
 

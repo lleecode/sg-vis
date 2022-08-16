@@ -1,7 +1,7 @@
-package de.bht.s68161.gvis.graph;
+package de.bht.lucaslee.gvis.graph;
 
 public class InvalidEdgeException extends RuntimeException {
-    public InvalidEdgeException(String message) {
+    protected InvalidEdgeException(String message) {
         super(message);
     }
 }

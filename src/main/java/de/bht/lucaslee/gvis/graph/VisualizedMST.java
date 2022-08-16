@@ -1,21 +1,14 @@
-package de.bht.s68161.gvis.graph;
-
-import org.graphstream.ui.swing_viewer.SwingViewer;
-import org.graphstream.ui.swing_viewer.ViewPanel;
-import org.graphstream.ui.view.Viewer;
+package de.bht.lucaslee.gvis.graph;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class VisualizedMST {
+
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
     private int visualizedState = 0;
@@ -31,7 +24,13 @@ public class VisualizedMST {
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
         this.graph.setAttribute(Attributes.STYLESHEET, STYLESHEET);
-        initializeFrame();
+        new GraphVisualizer(
+                graph.getSwingViewerOfGraph(),
+                startButtonListener,
+                backButtonListener,
+                forwardButtonListener,
+                endButtonListener
+        );
     }
 
     public void addEdgeToMST(WeightedEdge edge) throws InvalidEdgeException {
@@ -65,7 +64,7 @@ public class VisualizedMST {
             "}\n" +
             "\n" +
             "edge.mst {\n" +
-            "    fill-color: red;\n" +
+            "    fill-color: blue;\n" +
             "}\n" +
             "\n" +
             "node {\n" +
@@ -76,58 +75,6 @@ public class VisualizedMST {
             "    stroke-width: 2;\n" +
             "    fill-color: white;\n" +
             "}\n";
-
-    private void initializeFrame() {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.add(createGraphPanel());
-        frame.add(createButtonPanel(), BorderLayout.SOUTH);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    private JPanel createGraphPanel() {
-        JPanel panel = new JPanel(new BorderLayout()) {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(640, 480);
-            }
-        };
-
-        Viewer viewer = new SwingViewer(graph.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        ViewPanel view = (ViewPanel) viewer.addDefaultView(false);
-        panel.add(view);
-        return panel;
-    }
-
-    private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 4)) {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(640, 40);
-            }
-        };
-
-        startButton = new JButton("start");
-        backButton = new JButton("back");
-        forwardButton = new JButton("forward");
-        endButton = new JButton("end");
-
-        startButton.addActionListener(startButtonListener);
-        backButton.addActionListener(backButtonListener);
-        forwardButton.addActionListener(forwardButtonListener);
-        endButton.addActionListener(endButtonListener);
-
-        buttonPanel.add(startButton);
-        buttonPanel.add(backButton);
-        buttonPanel.add(forwardButton);
-        buttonPanel.add(endButton);
-
-        return buttonPanel;
-    }
 
     private final ActionListener startButtonListener = new ActionListener() {
         @Override

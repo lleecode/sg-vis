@@ -1,9 +1,10 @@
-package de.bht.s68161.gvis.graph;
+package de.bht.lucaslee.gvis.graph;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.ElementNotFoundException;
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.view.Viewer;
 
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -22,11 +23,11 @@ public class WeightedGraph {
         return Node.from(node);
     }
 
-    protected Node removeNode(String name) throws ElementNotFoundException {
+    public Node removeNode(String name) throws ElementNotFoundException {
         return Node.from(graph.removeNode(name));
     }
 
-    protected Node removeNode(Node node) throws ElementNotFoundException {
+    public Node removeNode(Node node) throws ElementNotFoundException {
         graph.removeNode(node.getName());
         return node;
     }
@@ -41,12 +42,12 @@ public class WeightedGraph {
         return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
     }
 
-    protected WeightedEdge removeEdge(WeightedEdge edge) throws ElementNotFoundException {
+    public WeightedEdge removeEdge(WeightedEdge edge) throws ElementNotFoundException {
         graph.removeEdge(edge.getName());
         return edge;
     }
 
-    protected WeightedEdge removeEdge(String name) {
+    public WeightedEdge removeEdge(String name) {
         return WeightedEdge.from(graph.removeEdge(name));
     }
 
@@ -77,7 +78,7 @@ public class WeightedGraph {
         graph.setAttribute(attr, value);
     }
 
-    protected Graph getGraph() {
-        return graph;
+    protected Viewer getSwingViewerOfGraph() {
+        return new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
     }
 }

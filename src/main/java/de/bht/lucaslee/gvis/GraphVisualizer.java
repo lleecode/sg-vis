@@ -1,9 +1,9 @@
-package de.bht.s68161.gvis;
+package de.bht.lucaslee.gvis;
 
-import de.bht.s68161.gvis.graph.Node;
-import de.bht.s68161.gvis.graph.WeightedGraph;
-import de.bht.s68161.gvis.graph.VisualizedMST;
-import de.bht.s68161.gvis.graph.WeightedEdge;
+import de.bht.lucaslee.gvis.graph.VisualizedMST;
+import de.bht.lucaslee.gvis.graph.WeightedEdge;
+import de.bht.lucaslee.gvis.graph.Node;
+import de.bht.lucaslee.gvis.graph.WeightedGraph;
 
 import java.util.Arrays;
 import java.util.Comparator;
