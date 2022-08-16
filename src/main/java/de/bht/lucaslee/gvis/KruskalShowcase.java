@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 
 public class KruskalShowcase {
 
-    private static final int SLEEP_DURATION = 1000;
-
     public static void main(String[] args) throws InterruptedException {
         initExampleKruskal();
     }
@@ -22,7 +20,7 @@ public class KruskalShowcase {
     private static void initExampleKruskal() throws InterruptedException {
 
         WeightedGraph weightedGraph = new WeightedGraph();
-        VisualizedSubGraph vMST = new VisualizedSubGraph(weightedGraph);
+        VisualizedSubGraph visualizedSubGraph = new VisualizedSubGraph(weightedGraph);
 
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(weightedGraph::addNode);
 
@@ -38,10 +36,10 @@ public class KruskalShowcase {
         weightedGraph.addEdge("gf", "G", "F", 1);
         weightedGraph.addEdge("hi", "H", "I", 3);
 
-        kruskal(weightedGraph, vMST);
+        kruskal(weightedGraph, visualizedSubGraph);
     }
 
-    private static void kruskal(WeightedGraph graph, VisualizedSubGraph mst) throws InterruptedException {
+    private static void kruskal(WeightedGraph graph, VisualizedSubGraph visualizedSubGraph) throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
             HashSet<Node> cluster = new HashSet<>();
@@ -69,7 +67,7 @@ public class KruskalShowcase {
                 nodeClusters.remove(clusterA);
                 nodeClusters.remove(clusterB);
                 nodeClusters.add(merged);
-                mst.addEdgeToSubGraph(edge);
+                visualizedSubGraph.addEdgeToSubGraph(edge);
             }
         }
     }
