@@ -54,10 +54,11 @@ public class WeightedEdge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WeightedEdge that = (WeightedEdge) o;
-        return (weight == that.weight)
-                && (Objects.equals(name, that.name))
-                && (nodeA.getName().equals(that.nodeA.getName()) && nodeB.getName().equals(that.nodeB.getName()) ||
-                nodeA.getName().equals(that.nodeB.getName()) && nodeB.getName().equals(that.nodeA.getName()));
+        if (weight != that.weight) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (Objects.equals(nodeA, that.getNodeA()) && Objects.equals(nodeB, that.getNodeB())) return true;
+        if (Objects.equals(nodeA, that.getNodeB()) && Objects.equals(nodeB, that.getNodeA())) return true;
+        return false;
     }
 
     @Override
