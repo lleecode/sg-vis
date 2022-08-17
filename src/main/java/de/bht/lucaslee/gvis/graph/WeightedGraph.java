@@ -49,7 +49,11 @@ public class WeightedGraph {
     }
 
     public WeightedEdge addEdge(WeightedEdge edge) {
-        Edge edge_ = graph.addEdge(edge.getName(), edge.getNodeA().getName(), edge.getNodeB().getName());
+        Edge edge_ = graph.addEdge(
+                edge.getName(),
+                edge.getNodeA().getName(),
+                edge.getNodeB().getName()
+        );
         edge_.setAttribute(Attributes.LABEL, edge.getWeight());
         return edge;
     }
