@@ -19,6 +19,7 @@ public class VisualizedSubGraph {
 
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
+
     private int visualizedState = 0;
 
     public VisualizedSubGraph(WeightedGraph graph) {
