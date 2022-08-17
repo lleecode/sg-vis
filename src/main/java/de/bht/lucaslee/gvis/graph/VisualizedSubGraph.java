@@ -1,7 +1,5 @@
 package de.bht.lucaslee.gvis.graph;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,9 +8,9 @@ import java.util.HashSet;
 /**
  * This class visualizes a graph and a related sub graph.
  *
- * @author  Lucas Lee
+ * @author Lucas Lee
  * @version 0.9
- * @since   2022-08-16
+ * @since 2022-08-16
  */
 
 public class VisualizedSubGraph {
@@ -48,7 +46,8 @@ public class VisualizedSubGraph {
 
     public void updateVisualization() {
         graph.getEdges().forEach(e -> {
-            if (state.get(visualizedState).contains(e)) graph.setAttribute(e, Attributes.CLASS, "subgraph");
+            if (state.get(visualizedState).contains(e))
+                graph.setAttribute(e, Attributes.CLASS, "subgraph");
             else graph.removeAttribute(e, Attributes.CLASS);
         });
     }
