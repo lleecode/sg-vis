@@ -18,6 +18,8 @@ public class VisualizedSubGraph {
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
 
+    private int visualizedState = 0;
+
     public VisualizedSubGraph(WeightedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
@@ -41,8 +43,6 @@ public class VisualizedSubGraph {
         newState.add(edge);
         state.add(newState);
     }
-
-    private int visualizedState = 0;
 
     public void updateVisualization() {
         graph.getEdges().forEach(e -> {
