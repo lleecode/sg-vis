@@ -52,7 +52,7 @@ public class GraphVisualizer {
         JPanel panel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(640, 480);
+                return new Dimension(1280, 960);
             }
         };
 
@@ -66,7 +66,7 @@ public class GraphVisualizer {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 4)) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(640, 40);
+                return new Dimension(1280, 40);
             }
         };
 
