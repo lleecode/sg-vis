@@ -20,8 +20,6 @@ public class VisualizedSubGraph {
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
 
-    private int visualizedState = 0;
-
     public VisualizedSubGraph(WeightedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
@@ -46,38 +44,14 @@ public class VisualizedSubGraph {
         state.add(newState);
     }
 
+    private int visualizedState = 0;
+
     public void updateVisualization() {
         graph.getEdges().forEach(e -> {
             if (state.get(visualizedState).contains(e)) graph.setAttribute(e, Attributes.CLASS, "subgraph");
             else graph.removeAttribute(e, Attributes.CLASS);
         });
     }
-
-    private static final String STYLESHEET = "" +
-            "edge {\n" +
-            "    fill-color: black;\n" +
-            "    size: 2;\n" +
-            "    text-size: 25;\n" +
-            "    text-alignment: above;\n" +
-            "    text-color: black;\n" +
-            "    text-style: bold;\n" +
-            "    text-background-mode: rounded-box;\n" +
-            "    text-background-color: white;\n" +
-            "    text-padding: 4, 4;\n" +
-            "}\n" +
-            "\n" +
-            "edge.subgraph {\n" +
-            "    fill-color: blue;\n" +
-            "}\n" +
-            "\n" +
-            "node {\n" +
-            "    text-size: 25;\n" +
-            "    text-style: bold;\n" +
-            "    size: 25, 25;\n" +
-            "    stroke-mode: plain;\n" +
-            "    stroke-width: 2;\n" +
-            "    fill-color: white;\n" +
-            "}\n";
 
     private final ActionListener startButtonListener = new ActionListener() {
         @Override
@@ -118,4 +92,30 @@ public class VisualizedSubGraph {
             }
         }
     };
+
+    private static final String STYLESHEET = "" +
+            "edge {\n" +
+            "    fill-color: black;\n" +
+            "    size: 2;\n" +
+            "    text-size: 25;\n" +
+            "    text-alignment: above;\n" +
+            "    text-color: black;\n" +
+            "    text-style: bold;\n" +
+            "    text-background-mode: rounded-box;\n" +
+            "    text-background-color: white;\n" +
+            "    text-padding: 4, 4;\n" +
+            "}\n" +
+            "\n" +
+            "edge.subgraph {\n" +
+            "    fill-color: blue;\n" +
+            "}\n" +
+            "\n" +
+            "node {\n" +
+            "    text-size: 25;\n" +
+            "    text-style: bold;\n" +
+            "    size: 25, 25;\n" +
+            "    stroke-mode: plain;\n" +
+            "    stroke-width: 2;\n" +
+            "    fill-color: white;\n" +
+            "}\n";
 }
