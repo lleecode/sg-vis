@@ -8,6 +8,7 @@ import org.graphstream.ui.view.Viewer;
 
 import java.util.HashSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WeightedGraph {
 
@@ -68,7 +69,11 @@ public class WeightedGraph {
     }
 
     public HashSet<WeightedEdge> getEdges() {
-        return graph.edges().map(WeightedEdge::from).collect(Collectors.toCollection(HashSet::new));
+        return getEdgesStream().collect(Collectors.toCollection(HashSet::new));
+    }
+
+    private Stream<WeightedEdge> getEdgesStream() {
+        return graph.edges().map(WeightedEdge::from);
     }
 
     protected boolean containsEdge(WeightedEdge edge) {
@@ -96,5 +101,20 @@ public class WeightedGraph {
 
     protected Viewer getSwingViewerOfGraph() {
         return new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WeightedGraph (");
+        getEdgesStream().forEach(e -> {
+            sb.append("\n\t");
+            sb.append(e.getNodeA().getName());
+            sb.append(" --- ");
+            sb.append(e.getWeight());
+            sb.append(" --- ");
+            sb.append(e.getNodeB().getName());
+        });
+        sb.append("\n)");
+        return sb.toString();
     }
 }
