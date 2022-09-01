@@ -25,7 +25,7 @@ public class WeightedGraph {
             node.setAttribute(Attributes.LABEL, node.getId());
             return Node.from(node);
         } catch (IdAlreadyInUseException ex) {
-            throw new InvalidNodeException("Graph already contains a Node with the name: " + name);
+            throw new InvalidNodeException("Graph already contains a node with the name: " + name);
         }
     }
 
@@ -37,45 +37,55 @@ public class WeightedGraph {
         try {
             return Node.from(graph.removeNode(name));
         } catch (ElementNotFoundException ex) {
-            throw new InvalidNodeException("Cannot remove Node. Graph does not contain Node with name \"" + name + "\"");
+            throw new InvalidNodeException("Cannot remove node. Graph does not contain node with name: " + name);
         }
     }
 
     public Node removeNode(Node node) {
-        return removeNode(node.getName());
+        return this.removeNode(node.getName());
     }
 
     public HashSet<Node> getNodes() {
-        return graph.nodes().map(Node::from).collect(Collectors.toCollection(HashSet::new));
+        return this.getNodesStream().collect(Collectors.toCollection(HashSet::new));
+    }
+
+    private Stream<Node> getNodesStream() {
+        return graph.nodes().map(Node::from);
     }
 
     public WeightedEdge addEdge(String name, String nodeA, String nodeB, int weight) {
-        Edge e = graph.addEdge(name, nodeA, nodeB);
-        e.setAttribute(Attributes.LABEL, weight);
-        return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
+        try {
+            Edge e = graph.addEdge(name, nodeA, nodeB);
+            e.setAttribute(Attributes.LABEL, weight);
+            return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
+        } catch (ElementNotFoundException ex) {
+            throw new InvalidEdgeException("Cannot add edge. Depended element not found: " + ex.getMessage());
+        }
     }
 
     public WeightedEdge addEdge(WeightedEdge edge) {
-        Edge edge_ = graph.addEdge(
+        return this.addEdge(
                 edge.getName(),
                 edge.getNodeA().getName(),
-                edge.getNodeB().getName()
+                edge.getNodeB().getName(),
+                edge.getWeight()
         );
-        edge_.setAttribute(Attributes.LABEL, edge.getWeight());
-        return edge;
     }
 
     public WeightedEdge removeEdge(WeightedEdge edge) throws ElementNotFoundException {
-        graph.removeEdge(edge.getName());
-        return edge;
+        return this.removeEdge(edge.getName());
     }
 
     public WeightedEdge removeEdge(String name) {
-        return WeightedEdge.from(graph.removeEdge(name));
+        try {
+            return WeightedEdge.from(graph.removeEdge(name));
+        } catch (ElementNotFoundException ex) {
+            throw new InvalidEdgeException("Cannot remove edge. Graph does not contain edge with name: " + name);
+        }
     }
 
     public HashSet<WeightedEdge> getEdges() {
-        return getEdgesStream().collect(Collectors.toCollection(HashSet::new));
+        return this.getEdgesStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     private Stream<WeightedEdge> getEdgesStream() {
@@ -112,8 +122,11 @@ public class WeightedGraph {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("WeightedGraph (");
-        getEdgesStream().forEach(e -> {
-            sb.append("\n\t");
+        sb.append("\n\tNodes:\n\t\t");
+        sb.append(this.getNodesStream().map(Node::getName).collect(Collectors.joining(", ")));
+        sb.append("\n\tEdges:");
+        this.getEdgesStream().forEach(e -> {
+            sb.append("\n\t\t");
             sb.append(e.getNodeA().getName());
             sb.append(" --- ");
             sb.append(e.getWeight());
