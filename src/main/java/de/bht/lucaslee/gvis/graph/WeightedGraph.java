@@ -2,6 +2,7 @@ package de.bht.lucaslee.gvis.graph;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.ElementNotFoundException;
+import org.graphstream.graph.IdAlreadyInUseException;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.view.Viewer;
@@ -19,24 +20,29 @@ public class WeightedGraph {
     }
 
     public Node addNode(String name) {
-        org.graphstream.graph.Node node = graph.addNode(name);
-        node.setAttribute(Attributes.LABEL, node.getId());
-        return Node.from(node);
+        try {
+            org.graphstream.graph.Node node = graph.addNode(name);
+            node.setAttribute(Attributes.LABEL, node.getId());
+            return Node.from(node);
+        } catch (IdAlreadyInUseException ex) {
+            throw new InvalidNodeException("Graph already contains a Node with the name: " + name);
+        }
     }
 
     public Node addNode(Node node) {
-        org.graphstream.graph.Node node_ = graph.addNode(node.getName());
-        node_.setAttribute(Attributes.LABEL, node_.getId());
-        return node;
+        return addNode(node.getName());
     }
 
-    public Node removeNode(String name) throws ElementNotFoundException {
-        return Node.from(graph.removeNode(name));
+    public Node removeNode(String name) {
+        try {
+            return Node.from(graph.removeNode(name));
+        } catch (ElementNotFoundException ex) {
+            throw new InvalidNodeException("Cannot remove Node. Graph does not contain Node with name \"" + name + "\"");
+        }
     }
 
-    public Node removeNode(Node node) throws ElementNotFoundException {
-        graph.removeNode(node.getName());
-        return node;
+    public Node removeNode(Node node) {
+        return removeNode(node.getName());
     }
 
     public HashSet<Node> getNodes() {

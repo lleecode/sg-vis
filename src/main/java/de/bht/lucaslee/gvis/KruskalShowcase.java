@@ -21,7 +21,7 @@ public class KruskalShowcase {
 
         WeightedGraph weightedGraph = new WeightedGraph();
         VisualizedSubGraph visualizedSubGraph = new VisualizedSubGraph(weightedGraph);
-
+        System.out.println(weightedGraph.toString());
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(weightedGraph::addNode);
 
         weightedGraph.addEdge("ab", "A", "B", 3);
