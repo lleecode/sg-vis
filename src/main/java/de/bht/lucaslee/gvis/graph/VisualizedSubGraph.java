@@ -45,10 +45,17 @@ public class VisualizedSubGraph {
     }
 
     public void updateVisualization() {
+        HashSet<Node> nodes = new HashSet<>();
         graph.getEdges().forEach(e -> {
-            if (state.get(visualizedState).contains(e))
+            if (state.get(visualizedState).contains(e)) {
                 graph.setAttribute(e, Attributes.CLASS, "subgraph");
-            else graph.removeAttribute(e, Attributes.CLASS);
+                nodes.add(e.getNodeA());
+                nodes.add(e.getNodeB());
+            } else graph.removeAttribute(e, Attributes.CLASS);
+        });
+        graph.getNodes().forEach(n -> {
+            if (nodes.contains(n)) graph.setAttribute(n, Attributes.CLASS, "subgraph");
+            else graph.removeAttribute(n, Attributes.CLASS);
         });
     }
 
@@ -116,5 +123,10 @@ public class VisualizedSubGraph {
             "    stroke-mode: plain;\n" +
             "    stroke-width: 2;\n" +
             "    fill-color: white;\n" +
-            "}\n";
+            "}" +
+            "" +
+            "node.subgraph {" +
+            "   stroke-color: blue;" +
+            "}" +
+            "\n";
 }

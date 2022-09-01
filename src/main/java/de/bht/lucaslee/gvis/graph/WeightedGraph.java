@@ -111,6 +111,11 @@ public class WeightedGraph {
         n.setAttribute(attr, value);
     }
 
+    protected void removeAttribute(Node node, String attr) {
+        org.graphstream.graph.Node n = graph.getNode(node.getName());
+        n.removeAttribute(attr);
+    }
+
     protected void setAttribute(String attr, String value) {
         graph.setAttribute(attr, value);
     }
