@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class WeightedEdgeTest {
 
     @Test
-    void testValues() {
+    void testConstructor() {
         String name = "test name edge";
         Node nodeA = new Node("Node A");
         Node nodeB = new Node("Node B");
