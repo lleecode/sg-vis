@@ -44,7 +44,7 @@ public class VisualizedSubGraph {
         state.add(newState);
     }
 
-    public void updateVisualization() {
+    private void updateVisualization() {
         HashSet<Node> nodes = new HashSet<>();
         graph.getEdges().forEach(e -> {
             if (state.get(visualizedState).contains(e)) {
