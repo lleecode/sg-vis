@@ -1,7 +1,7 @@
 package de.bht.lucas.lee.gvis.graph;
 
-import de.bht.lucaslee.gvis.graph.Node;
-import de.bht.lucaslee.gvis.graph.WeightedEdge;
+import de.bht.lucaslee.gvis.Node;
+import de.bht.lucaslee.gvis.WeightedEdge;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

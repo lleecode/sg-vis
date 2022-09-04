@@ -1,4 +1,4 @@
-package de.bht.lucaslee.gvis.graph;
+package de.bht.lucaslee.gvis;
 
 public class Attributes {
     protected static final String LABEL = "ui.label";

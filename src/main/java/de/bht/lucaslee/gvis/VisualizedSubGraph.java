@@ -1,4 +1,4 @@
-package de.bht.lucaslee.gvis.graph;
+package de.bht.lucaslee.gvis;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,10 +1,5 @@
 package de.bht.lucaslee.gvis;
 
-import de.bht.lucaslee.gvis.graph.Node;
-import de.bht.lucaslee.gvis.graph.VisualizedSubGraph;
-import de.bht.lucaslee.gvis.graph.WeightedEdge;
-import de.bht.lucaslee.gvis.graph.WeightedGraph;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;

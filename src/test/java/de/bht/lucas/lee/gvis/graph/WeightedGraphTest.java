@@ -1,10 +1,10 @@
 package de.bht.lucas.lee.gvis.graph;
 
-import de.bht.lucaslee.gvis.graph.InvalidEdgeException;
-import de.bht.lucaslee.gvis.graph.InvalidNodeException;
-import de.bht.lucaslee.gvis.graph.Node;
-import de.bht.lucaslee.gvis.graph.WeightedEdge;
-import de.bht.lucaslee.gvis.graph.WeightedGraph;
+import de.bht.lucaslee.gvis.InvalidEdgeException;
+import de.bht.lucaslee.gvis.InvalidNodeException;
+import de.bht.lucaslee.gvis.Node;
+import de.bht.lucaslee.gvis.WeightedEdge;
+import de.bht.lucaslee.gvis.WeightedGraph;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
