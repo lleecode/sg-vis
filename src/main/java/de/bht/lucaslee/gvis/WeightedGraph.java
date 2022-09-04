@@ -105,10 +105,6 @@ public class WeightedGraph {
         return graph.edges().map(WeightedEdge::from);
     }
 
-    protected boolean containsEdge(WeightedEdge edge) {
-        return WeightedEdge.from(graph.getEdge(edge.getName())).equals(edge);
-    }
-
     protected void setAttribute(WeightedEdge edge, String attr, String value) {
         Edge e = graph.getEdge(edge.getName());
         e.setAttribute(attr, value);
@@ -135,6 +131,10 @@ public class WeightedGraph {
 
     protected Viewer getSwingViewerOfGraph() {
         return new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+    }
+
+    protected boolean containsEdge(WeightedEdge edge) {
+        return WeightedEdge.from(graph.getEdge(edge.getName())).equals(edge);
     }
 
     public String toString() {
