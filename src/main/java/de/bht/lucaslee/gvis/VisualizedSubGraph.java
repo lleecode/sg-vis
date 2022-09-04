@@ -5,14 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * This class visualizes a graph and a related sub graph.
- *
- * @author Lucas Lee
- * @version 0.9
- * @since 2022-08-16
- */
-
 public class VisualizedSubGraph {
 
     private final WeightedGraph graph;
