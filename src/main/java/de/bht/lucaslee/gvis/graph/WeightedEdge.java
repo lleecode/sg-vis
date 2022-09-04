@@ -56,8 +56,10 @@ public class WeightedEdge {
         WeightedEdge that = (WeightedEdge) o;
         if (weight != that.weight) return false;
         if (!Objects.equals(name, that.name)) return false;
-        if (Objects.equals(nodeA, that.getNodeA()) && Objects.equals(nodeB, that.getNodeB())) return true;
-        if (Objects.equals(nodeA, that.getNodeB()) && Objects.equals(nodeB, that.getNodeA())) return true;
+        if (Objects.equals(nodeA, that.getNodeA()) && Objects.equals(nodeB, that.getNodeB()))
+            return true;
+        if (Objects.equals(nodeA, that.getNodeB()) && Objects.equals(nodeB, that.getNodeA()))
+            return true;
         return false;
     }
 

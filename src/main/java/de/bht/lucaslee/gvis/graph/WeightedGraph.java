@@ -25,7 +25,9 @@ public class WeightedGraph {
             node.setAttribute(Attributes.LABEL, node.getId());
             return Node.from(node);
         } catch (IdAlreadyInUseException ex) {
-            throw new InvalidNodeException("Graph already contains a node with the name: " + name);
+            throw new InvalidNodeException(
+                    "Graph already contains a node with the name: " + name
+            );
         }
     }
 
@@ -37,7 +39,9 @@ public class WeightedGraph {
         try {
             return Node.from(graph.removeNode(name));
         } catch (ElementNotFoundException ex) {
-            throw new InvalidNodeException("Cannot remove node. Graph does not contain node with name: " + name);
+            throw new InvalidNodeException(
+                    "Cannot remove node. Graph does not contain node with name: " + name
+            );
         }
     }
 
@@ -57,9 +61,16 @@ public class WeightedGraph {
         try {
             Edge e = graph.addEdge(name, nodeA, nodeB);
             e.setAttribute(Attributes.LABEL, weight);
-            return new WeightedEdge(e.getId(), Node.from(e.getNode0()), Node.from(e.getNode1()), weight);
+            return new WeightedEdge(
+                    e.getId(),
+                    Node.from(e.getNode0()),
+                    Node.from(e.getNode1()),
+                    weight
+            );
         } catch (ElementNotFoundException ex) {
-            throw new InvalidEdgeException("Cannot add edge. Depended element not found: " + ex.getMessage());
+            throw new InvalidEdgeException(
+                    "Cannot add edge. Depended element not found: " + ex.getMessage()
+            );
         }
     }
 
@@ -80,7 +91,9 @@ public class WeightedGraph {
         try {
             return WeightedEdge.from(graph.removeEdge(name));
         } catch (ElementNotFoundException ex) {
-            throw new InvalidEdgeException("Cannot remove edge. Graph does not contain edge with name: " + name);
+            throw new InvalidEdgeException(
+                    "Cannot remove edge. Graph does not contain edge with name: " + name
+            );
         }
     }
 

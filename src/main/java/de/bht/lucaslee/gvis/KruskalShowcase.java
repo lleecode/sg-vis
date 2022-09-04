@@ -1,8 +1,8 @@
 package de.bht.lucaslee.gvis;
 
+import de.bht.lucaslee.gvis.graph.Node;
 import de.bht.lucaslee.gvis.graph.VisualizedSubGraph;
 import de.bht.lucaslee.gvis.graph.WeightedEdge;
-import de.bht.lucaslee.gvis.graph.Node;
 import de.bht.lucaslee.gvis.graph.WeightedGraph;
 
 import java.util.Arrays;
@@ -22,7 +22,8 @@ public class KruskalShowcase {
         WeightedGraph weightedGraph = new WeightedGraph();
         VisualizedSubGraph visualizedSubGraph = new VisualizedSubGraph(weightedGraph);
         System.out.println(weightedGraph.toString());
-        Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"}).forEach(weightedGraph::addNode);
+        Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"})
+                .forEach(weightedGraph::addNode);
 
         weightedGraph.addEdge("ab", "A", "B", 3);
         weightedGraph.addEdge("ae", "A", "E", 4);
@@ -39,7 +40,8 @@ public class KruskalShowcase {
         kruskal(weightedGraph, visualizedSubGraph);
     }
 
-    private static void kruskal(WeightedGraph graph, VisualizedSubGraph visualizedSubGraph) throws InterruptedException {
+    private static void kruskal(WeightedGraph graph, VisualizedSubGraph visualizedSubGraph)
+            throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
             HashSet<Node> cluster = new HashSet<>();
@@ -72,7 +74,10 @@ public class KruskalShowcase {
         }
     }
 
-    private static HashSet<Node> findContainingCluster(HashSet<HashSet<Node>> nodeClusters, Node node) {
+    private static HashSet<Node> findContainingCluster(
+            HashSet<HashSet<Node>> nodeClusters,
+            Node node
+    ) {
         return nodeClusters.stream().filter(cluster -> cluster.contains(node)).findAny().get();
     }
 }

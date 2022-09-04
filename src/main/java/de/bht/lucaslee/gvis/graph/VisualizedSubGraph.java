@@ -35,9 +35,11 @@ public class VisualizedSubGraph {
     }
 
     public void addEdgeToSubGraph(WeightedEdge edge) throws InvalidEdgeException {
-        if (!graph.containsEdge(edge)) throw new InvalidEdgeException("Edge has to be contained in graph.");
+        if (!graph.containsEdge(edge))
+            throw new InvalidEdgeException("Edge has to be contained in graph.");
         HashSet<WeightedEdge> oldState = state.get(state.size() - 1);
-        if (oldState.contains(edge)) throw new InvalidEdgeException("Edge is already part of sub graph");
+        if (oldState.contains(edge))
+            throw new InvalidEdgeException("Edge is already part of sub graph");
 
         HashSet<WeightedEdge> newState = new HashSet<>(oldState);
         newState.add(edge);
