@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class VisualizedSubGraph {
+public class VisualizedSubgraph {
 
     private final WeightedGraph graph;
     private final ArrayList<HashSet<WeightedEdge>> state;
 
     private int visualizedState = 0;
 
-    public VisualizedSubGraph(WeightedGraph graph) {
+    public VisualizedSubgraph(WeightedGraph graph) {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
@@ -26,7 +26,7 @@ public class VisualizedSubGraph {
         );
     }
 
-    public void addEdgeToSubGraph(WeightedEdge edge) throws InvalidEdgeException {
+    public void addEdgeToSubgraph(WeightedEdge edge) throws InvalidEdgeException {
         if (!graph.containsEdge(edge))
             throw new InvalidEdgeException("Edge has to be contained in graph.");
         HashSet<WeightedEdge> oldState = state.get(state.size() - 1);

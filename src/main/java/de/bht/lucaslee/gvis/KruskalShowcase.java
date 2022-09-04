@@ -15,7 +15,7 @@ public class KruskalShowcase {
     private static void initExampleKruskal() throws InterruptedException {
 
         WeightedGraph weightedGraph = new WeightedGraph();
-        VisualizedSubGraph visualizedSubGraph = new VisualizedSubGraph(weightedGraph);
+        VisualizedSubgraph visualizedSubgraph = new VisualizedSubgraph(weightedGraph);
         System.out.println(weightedGraph.toString());
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"})
                 .forEach(weightedGraph::addNode);
@@ -32,10 +32,10 @@ public class KruskalShowcase {
         weightedGraph.addEdge("gf", "G", "F", 1);
         weightedGraph.addEdge("hi", "H", "I", 3);
 
-        kruskal(weightedGraph, visualizedSubGraph);
+        kruskal(weightedGraph, visualizedSubgraph);
     }
 
-    private static void kruskal(WeightedGraph graph, VisualizedSubGraph visualizedSubGraph)
+    private static void kruskal(WeightedGraph graph, VisualizedSubgraph visualizedSubgraph)
             throws InterruptedException {
         HashSet<HashSet<Node>> nodeClusters = new HashSet<>();
         graph.getNodes().forEach(node -> {
@@ -64,7 +64,7 @@ public class KruskalShowcase {
                 nodeClusters.remove(clusterA);
                 nodeClusters.remove(clusterB);
                 nodeClusters.add(merged);
-                visualizedSubGraph.addEdgeToSubGraph(edge);
+                visualizedSubgraph.addEdgeToSubgraph(edge);
             }
         }
     }
