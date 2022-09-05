@@ -1,4 +1,4 @@
-package de.bht.lucas.lee.gvis.graph;
+package de.bht.lucas.lee.gvis;
 
 import de.bht.lucaslee.gvis.InvalidEdgeException;
 import de.bht.lucaslee.gvis.InvalidNodeException;

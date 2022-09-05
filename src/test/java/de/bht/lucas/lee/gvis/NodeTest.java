@@ -1,4 +1,4 @@
-package de.bht.lucas.lee.gvis.graph;
+package de.bht.lucas.lee.gvis;
 
 import de.bht.lucaslee.gvis.Node;
 import org.junit.jupiter.api.Test;
