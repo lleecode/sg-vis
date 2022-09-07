@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 public class KruskalShowcase {
 
     public static void main(String[] args) throws InterruptedException {
-        initExampleKruskal();
+        WeightedGraph weightedGraph = createWeightedGraph();
+        VisualizedSubgraph visualizedSubgraph = new VisualizedSubgraph(weightedGraph);
+        kruskal(weightedGraph, visualizedSubgraph);
     }
 
-    private static void initExampleKruskal() throws InterruptedException {
-
+    private static WeightedGraph createWeightedGraph() {
         WeightedGraph weightedGraph = new WeightedGraph();
-        VisualizedSubgraph visualizedSubgraph = new VisualizedSubgraph(weightedGraph);
-        System.out.println(weightedGraph.toString());
+
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"})
                 .forEach(weightedGraph::addNode);
 
@@ -32,7 +32,7 @@ public class KruskalShowcase {
         weightedGraph.addEdge("gf", "G", "F", 1);
         weightedGraph.addEdge("hi", "H", "I", 3);
 
-        kruskal(weightedGraph, visualizedSubgraph);
+        return weightedGraph;
     }
 
     private static void kruskal(WeightedGraph graph, VisualizedSubgraph visualizedSubgraph)
