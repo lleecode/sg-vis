@@ -28,10 +28,18 @@ public class VisualizedSubgraph {
 
     public void addEdgeToSubgraph(WeightedEdge edge) throws InvalidEdgeException {
         if (!graph.containsEdge(edge))
-            throw new InvalidEdgeException("Edge has to be contained in graph.");
+            throw new InvalidEdgeException("Graph does not contain Edge between Nodes with names '"
+                    + edge.getNodeA().getName()
+                    + "' and '"
+                    + edge.getNodeB().getName()
+                    + "'. Subgraph can only contain Edges that are part of the Graph.");
         HashSet<WeightedEdge> oldState = state.get(state.size() - 1);
         if (oldState.contains(edge))
-            throw new InvalidEdgeException("Edge is already part of sub graph");
+            throw new InvalidEdgeException("Edge between Nodes with names '"
+                    + edge.getNodeA().getName()
+                    + "' and '"
+                    + edge.getNodeB().getName()
+                    + "'. is already part of sub graph");
 
         HashSet<WeightedEdge> newState = new HashSet<>(oldState);
         newState.add(edge);

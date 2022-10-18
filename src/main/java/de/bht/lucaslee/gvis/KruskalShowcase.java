@@ -20,17 +20,17 @@ public class KruskalShowcase {
         Arrays.stream(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I"})
                 .forEach(weightedGraph::addNode);
 
-        weightedGraph.addEdge("ab", "A", "B", 3);
-        weightedGraph.addEdge("ae", "A", "E", 4);
-        weightedGraph.addEdge("bf", "B", "F", 2);
-        weightedGraph.addEdge("ch", "C", "H", 9);
-        weightedGraph.addEdge("di", "D", "I", 5);
-        weightedGraph.addEdge("ec", "E", "C", 8);
-        weightedGraph.addEdge("eh", "E", "H", 6);
-        weightedGraph.addEdge("fi", "F", "I", 4);
-        weightedGraph.addEdge("ga", "F", "A", 7);
-        weightedGraph.addEdge("gf", "G", "F", 1);
-        weightedGraph.addEdge("hi", "H", "I", 3);
+        weightedGraph.addEdge("A", "B", 3);
+        weightedGraph.addEdge("A", "E", 4);
+        weightedGraph.addEdge("B", "F", 2);
+        weightedGraph.addEdge("C", "H", 9);
+        weightedGraph.addEdge("D", "I", 5);
+        weightedGraph.addEdge("E", "C", 8);
+        weightedGraph.addEdge("E", "H", 6);
+        weightedGraph.addEdge("F", "I", 4);
+        weightedGraph.addEdge("F", "A", 7);
+        weightedGraph.addEdge("G", "F", 1);
+        weightedGraph.addEdge("H", "I", 3);
 
         return weightedGraph;
     }

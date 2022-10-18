@@ -22,7 +22,7 @@ public class GraphVisualizer {
 
     private JFrame frame;
 
-    public GraphVisualizer(
+    protected GraphVisualizer(
             Viewer viewer,
             ActionListener startButtonListener,
             ActionListener backButtonListener,
