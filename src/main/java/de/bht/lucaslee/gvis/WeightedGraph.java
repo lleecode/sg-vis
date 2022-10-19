@@ -21,14 +21,16 @@ public class WeightedGraph {
 
     public void addNode(String name) {
         if (graph.getNode(name) != null)
-            throw new InvalidNodeException("Cannot add Node with name '" + name + "'. Name already in use.");
+            throw new InvalidNodeException("Cannot add Node with name '"
+                    + name + "'. Name already in use.");
         org.graphstream.graph.Node node = graph.addNode(name);
         node.setAttribute(Attributes.LABEL, node.getId());
     }
 
     public void removeNode(String name) {
         if (graph.getNode(name) == null)
-            throw new InvalidNodeException("Cannot remove Node with name '" + name + "'. Graph does not contain a Node with this name.");
+            throw new InvalidNodeException("Cannot remove Node with name '"
+                    + name + "'. Graph does not contain a Node with this name.");
         graph.removeNode(name);
     }
 
@@ -42,16 +44,21 @@ public class WeightedGraph {
 
     public void addEdge(String nodeA, String nodeB, int weight) {
         if (graph.getNode(nodeA).hasEdgeBetween(nodeB))
-            throw new InvalidEdgeException("Cannot add Edge between Nodes with names '" + nodeA + "' and '" + nodeB + "'. Edge already contained");
+            throw new InvalidEdgeException("Cannot add Edge between Nodes with names '"
+                    + nodeA + "' and '" + nodeB + "'. Edge already contained");
         Edge e = graph.addEdge(nodeA + nodeB, nodeA, nodeB);
         e.setAttribute(Attributes.LABEL, weight);
     }
 
     public void removeEdge(String nodeA, String nodeB) {
-        if (graph.getNode(nodeA) == null) throw new InvalidNodeException(
-                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeA + "'");
-        if (graph.getNode(nodeB) == null) throw new InvalidNodeException(
-                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeB + "'");
+        if (graph.getNode(nodeA) == null)
+            throw new InvalidNodeException("Cannot remove Edge between Nodes with names'"
+                    + nodeA + "' and '" + nodeB + "'."
+                    + " Graph does not contain Node with name '" + nodeA + "'");
+        if (graph.getNode(nodeB) == null)
+            throw new InvalidNodeException("Cannot remove Edge between Nodes with names'"
+                    + nodeA + "' and '" + nodeB + "'."
+                    + " Graph does not contain Node with name '" + nodeB + "'");
         graph.removeEdge(nodeA, nodeB);
     }
 
