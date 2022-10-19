@@ -16,7 +16,7 @@ public class VisualizedSubgraph {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
-        this.graph.setAttribute(Attributes.STYLESHEET, getStylesheet(size.name(), color.rgb));
+        this.graph.setAttribute(Attributes.STYLESHEET, getStylesheet(size, color.rgb));
         new GraphVisualizer(
                 graph.getSwingViewerOfGraph(),
                 startButtonListener,
@@ -113,27 +113,27 @@ public class VisualizedSubgraph {
         }
     };
 
-    private static String getStylesheet(String scale, String subgraphColor) {
+    private static String getStylesheet(Style.Size size, String subgraphColor) {
         return "edge {\n" +
                 "    fill-color: black;\n" +
-                "    size: 2;\n" +
-                "    text-size: 25;\n" +
+                "    size:  " + size.edgeWidth + ";\n" +
+                "    text-size: " + size.textSize + ";\n" +
                 "    text-alignment: above;\n" +
                 "    text-style: bold;\n" +
                 "    text-background-mode: rounded-box;\n" +
                 "    text-background-color: white;\n" +
-                "    text-padding: 4, 4;\n" +
+                "    text-padding: " + size.edgeTextPadding + ", " + size.edgeTextPadding + ";\n" +
                 "}\n" +
                 "edge.subgraph {\n" +
                 "    fill-color: " + subgraphColor + ";\n" +
                 "}\n" +
                 "node {\n" +
-                "    text-size: 25;\n" +
+                "    text-size: " + size.textSize + ";\n" +
                 "    stroke-color: black;" +
                 "    text-style: bold;\n" +
-                "    size: 25, 25;\n" +
+                "    size: " + size.nodeSize + ", " + size.nodeSize + ";\n" +
                 "    stroke-mode: plain;\n" +
-                "    stroke-width: 2;\n" +
+                "    stroke-width: " + size.nodeWidth + ";\n" +
                 "    fill-color: white;\n" +
                 "}\n" +
                 "node.subgraph {" +
