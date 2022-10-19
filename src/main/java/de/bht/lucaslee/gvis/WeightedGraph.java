@@ -49,9 +49,9 @@ public class WeightedGraph {
 
     public void removeEdge(String nodeA, String nodeB) {
         if (graph.getNode(nodeA) == null) throw new InvalidNodeException(
-                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeA);
+                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeA + "'");
         if (graph.getNode(nodeB) == null) throw new InvalidNodeException(
-                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeB);
+                "Cannot remove Edge between Nodes with names'" + nodeA + "' and '" + nodeB + "'." + " Graph does not contain Node with name '" + nodeB + "'");
         graph.removeEdge(nodeA, nodeB);
     }
 
@@ -59,8 +59,21 @@ public class WeightedGraph {
         return this.getEdgesStream().collect(Collectors.toCollection(HashSet::new));
     }
 
+    public HashSet<Node> getNeighbors(String node) {
+        org.graphstream.graph.Node n = graph.getNode(node);
+        if (n == null)
+            throw new InvalidNodeException("Graph does not contain Node with name '" + node + "'");
+        return n.neighborNodes().map(Node::from).collect(Collectors.toCollection(HashSet::new));
+    }
+
     private Stream<WeightedEdge> getEdgesStream() {
         return graph.edges().map(WeightedEdge::from);
+    }
+
+    protected boolean containsEdge(WeightedEdge edge) {
+        org.graphstream.graph.Node nodeA = graph.getNode(edge.getNodeA().getName());
+        if (nodeA == null) return false;
+        return nodeA.hasEdgeBetween(edge.getNodeB().getName());
     }
 
     protected void setAttribute(WeightedEdge edge, String attr, String value) {
@@ -89,12 +102,6 @@ public class WeightedGraph {
 
     protected Viewer getSwingViewerOfGraph() {
         return new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-    }
-
-    protected boolean containsEdge(WeightedEdge edge) {
-        org.graphstream.graph.Node nodeA = graph.getNode(edge.getNodeA().getName());
-        if (nodeA == null) return false;
-        return nodeA.hasEdgeBetween(edge.getNodeB().getName());
     }
 
     public String toString() {
