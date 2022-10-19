@@ -12,11 +12,11 @@ public class VisualizedSubgraph {
 
     private int visualizedState = 0;
 
-    public VisualizedSubgraph(WeightedGraph graph) {
+    public VisualizedSubgraph(WeightedGraph graph, Style.Size size, Style.Color color) {
         this.graph = graph;
         this.state = new ArrayList<>();
         state.add(new HashSet<>());
-        this.graph.setAttribute(Attributes.STYLESHEET, STYLESHEET);
+        this.graph.setAttribute(Attributes.STYLESHEET, getStylesheet(size.name(), color.rgb));
         new GraphVisualizer(
                 graph.getSwingViewerOfGraph(),
                 startButtonListener,
@@ -24,6 +24,18 @@ public class VisualizedSubgraph {
                 forwardButtonListener,
                 endButtonListener
         );
+    }
+
+    public VisualizedSubgraph(WeightedGraph graph, Style.Size size) {
+        this(graph, size, Style.Color.VIOLET);
+    }
+
+    public VisualizedSubgraph(WeightedGraph graph, Style.Color color) {
+        this(graph, Style.Size.M, color);
+    }
+
+    public VisualizedSubgraph(WeightedGraph graph) {
+        this(graph, Style.Size.M, Style.Color.VIOLET);
     }
 
     public void addEdgeToSubgraph(WeightedEdge edge) throws InvalidEdgeException {
@@ -101,34 +113,31 @@ public class VisualizedSubgraph {
         }
     };
 
-    private static final String STYLESHEET = "" +
-            "edge {\n" +
-            "    fill-color: black;\n" +
-            "    size: 2;\n" +
-            "    text-size: 25;\n" +
-            "    text-alignment: above;\n" +
-            "    text-color: black;\n" +
-            "    text-style: bold;\n" +
-            "    text-background-mode: rounded-box;\n" +
-            "    text-background-color: white;\n" +
-            "    text-padding: 4, 4;\n" +
-            "}\n" +
-            "\n" +
-            "edge.subgraph {\n" +
-            "    fill-color: blue;\n" +
-            "}\n" +
-            "\n" +
-            "node {\n" +
-            "    text-size: 25;\n" +
-            "    text-style: bold;\n" +
-            "    size: 25, 25;\n" +
-            "    stroke-mode: plain;\n" +
-            "    stroke-width: 2;\n" +
-            "    fill-color: white;\n" +
-            "}" +
-            "" +
-            "node.subgraph {" +
-            "   stroke-color: blue;" +
-            "}" +
-            "\n";
+    private static String getStylesheet(String scale, String subgraphColor) {
+        return "edge {\n" +
+                "    fill-color: black;\n" +
+                "    size: 2;\n" +
+                "    text-size: 25;\n" +
+                "    text-alignment: above;\n" +
+                "    text-style: bold;\n" +
+                "    text-background-mode: rounded-box;\n" +
+                "    text-background-color: white;\n" +
+                "    text-padding: 4, 4;\n" +
+                "}\n" +
+                "edge.subgraph {\n" +
+                "    fill-color: " + subgraphColor + ";\n" +
+                "}\n" +
+                "node {\n" +
+                "    text-size: 25;\n" +
+                "    stroke-color: black;" +
+                "    text-style: bold;\n" +
+                "    size: 25, 25;\n" +
+                "    stroke-mode: plain;\n" +
+                "    stroke-width: 2;\n" +
+                "    fill-color: white;\n" +
+                "}\n" +
+                "node.subgraph {" +
+                "   stroke-color: " + subgraphColor + ";" +
+                "}\n";
+    }
 }
